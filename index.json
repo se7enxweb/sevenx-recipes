@@ -1,0 +1,16 @@
+{
+    "aliases": {
+        "exponential-dxp": "se7enxweb/exponential-platform-dxp",
+        "exponential-platform-dxp": "se7enxweb/exponential-platform-dxp",
+        "sevenx-dxp": "se7enxweb/exponential-platform-dxp"
+    },
+    "recipes": {
+        "se7enxweb/exponential-platform-dxp": ["dev-master"]
+    },
+    "_links": {
+        "repository": "github.com/se7enxweb/sevenx-recipes",
+        "origin_template": "{package}:{version}@github.com/se7enxweb/sevenx-recipes:master",
+        "recipe_template": "https://raw.githubusercontent.com/se7enxweb/sevenx-recipes/master/{package_dotted}.{version}.json",
+        "recipe_template_relative": "{package_dotted}.{version}.json"
+    }
+}
