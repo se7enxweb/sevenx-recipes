@@ -7,6 +7,10 @@
     "recipes": {
         "se7enxweb/exponential-platform-dxp": ["dev-master"]
     },
+    "recipe-conflicts": [],
+    "versions": [],
+    "branch": "master",
+    "is_contrib": false,
     "_links": {
         "repository": "github.com/se7enxweb/sevenx-recipes",
         "origin_template": "{package}:{version}@github.com/se7enxweb/sevenx-recipes:master",
