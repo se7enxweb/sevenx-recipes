@@ -1,0 +1,15 @@
+{
+    "bundles": {
+        "Netgen\\Bundle\\SiteBundle\\NetgenSiteBundle": ["all"]
+    },
+    "copy-from-recipe": {
+        "config/": "%CONFIG_DIR%/"
+    },
+    "env": {
+        "#1": "Defines which config files will be loaded from config/app/server folder",
+        "SERVER_ENVIRONMENT": "dev",
+        "#2": "",
+        "#3": "Empty string for API key means that MailerLite newsletter integration is disabled",
+        "MAILER_LITE_API_KEY": ""
+    }
+}

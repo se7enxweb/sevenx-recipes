@@ -1,0 +1,8 @@
+{
+    "bundles": {
+        "Netgen\\TagsBundle\\NetgenTagsBundle": ["all"]
+    },
+    "copy-from-recipe": {
+        "config/": "%CONFIG_DIR%/"
+    }
+}
