@@ -10,7 +10,7 @@
         {% set title = ibexa_content_name( content ) %}
     {% endif %}
     <title>{{ title|default( 'Home' ) }}</title>
-    <meta name="generator" content="Ibexa Open Source"/>
+    <meta name="generator" content="Exponential Platform DXP"/>
     {% if content is defined and content.contentInfo.mainLocationId %}
         <link rel="canonical" href="{{ ibexa_path(content) }}" />
     {% endif %}
