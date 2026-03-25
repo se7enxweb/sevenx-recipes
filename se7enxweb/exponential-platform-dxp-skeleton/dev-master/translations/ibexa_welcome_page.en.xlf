@@ -27,8 +27,8 @@
         <note>key: ibexa_platform_welcome_page.contact.title</note>
       </trans-unit>
       <trans-unit id="4c881f4c860503bedbef66f45a3500ac13c22621" resname="ibexa_platform_welcome_page.copyright">
-        <source><![CDATA[Copyright © %current_year% <a href="http://ibexa.co" rel="noopener" target="_blank">Ibexa</a> | Powered by Ibexa DXP]]></source>
-        <target state="new"><![CDATA[Copyright © %current_year% <a href="http://ibexa.co" rel="noopener" target="_blank">Ibexa</a> | Powered by Ibexa DXP]]></target>
+        <source><![CDATA[Copyright © %current_year% <a href="https://se7enx.com" rel="noopener" target="_blank">7x</a> | Powered by Exponential Platform DXP]]></source>
+        <target state="new"><![CDATA[Copyright © %current_year% <a href="https://se7enx.com" rel="noopener" target="_blank">7x</a> | Powered by Exponential Platform DXP]]></target>
         <note>key: ibexa_platform_welcome_page.copyright</note>
       </trans-unit>
       <trans-unit id="7f9357e012e45e129d8ac53648987ea76e9fcec9" resname="ibexa_platform_welcome_page.developer_documentation.action">
@@ -37,10 +37,10 @@
         <note>key: ibexa_platform_welcome_page.developer_documentation.action</note>
       </trans-unit>
       <trans-unit id="a6f1ab37279c237f15cf78c81a1ac4772ae20e1d" resname="ibexa_platform_welcome_page.developer_documentation.content">
-        <source xml:space="preserve">The core documentation covers the majority of functionalities, their configuration and available APIs of Ibexa DXP with references and examples.
-The commerce documentation covers the eCommerce features and APIs of Ibexa DXP. This includes payments and other integrations to back office systems.</source>
-        <target xml:space="preserve" state="new">The core documentation covers the majority of functionalities, their configuration and available APIs of Ibexa DXP with references and examples.
-The commerce documentation covers the eCommerce features and APIs of Ibexa DXP. This includes payments and other integrations to back office systems.</target>
+        <source xml:space="preserve">The core documentation covers the majority of functionalities, their configuration and available APIs of Exponential Platform with references and examples.
+The commerce documentation covers the eCommerce features and APIs of Exponential Platform. This includes payments and other integrations to back office systems.</source>
+        <target xml:space="preserve" state="new">The core documentation covers the majority of functionalities, their configuration and available APIs of Exponential Platform with references and examples.
+The commerce documentation covers the eCommerce features and APIs of Exponential Platform. This includes payments and other integrations to back office systems.</target>
         <note>key: ibexa_platform_welcome_page.developer_documentation.content</note>
       </trans-unit>
       <trans-unit id="3fa259b47b0e4454bedff6add212f936bcc39676" resname="ibexa_platform_welcome_page.developer_documentation.image">
@@ -59,8 +59,8 @@ The commerce documentation covers the eCommerce features and APIs of Ibexa DXP. 
         <note>key: ibexa_platform_welcome_page.documentation_center.action</note>
       </trans-unit>
       <trans-unit id="7df73699591ad7d733503b796526b4ac903d97b8" resname="ibexa_platform_welcome_page.documentation_center.content">
-        <source>Ibexa DXP documentation for developers and editors.</source>
-        <target state="new">Ibexa DXP documentation for developers and editors.</target>
+        <source>Exponential Platform documentation for developers and editors.</source>
+        <target state="new">Exponential Platform documentation for developers and editors.</target>
         <note>key: ibexa_platform_welcome_page.documentation_center.content</note>
       </trans-unit>
       <trans-unit id="a6a84c7b2deca139bfacaeaa75e4189179a283ef" resname="ibexa_platform_welcome_page.documentation_center.image">
@@ -149,8 +149,8 @@ The commerce documentation covers the eCommerce features and APIs of Ibexa DXP. 
         <note>key: ibexa_platform_welcome_page.rest_api.action</note>
       </trans-unit>
       <trans-unit id="839e1e9ae099f9bb8ce8ce4a8661d88f7a363772" resname="ibexa_platform_welcome_page.rest_api.content">
-        <source>As an API-first product, Ibexa DXP focuses on well-structured APIs. REST API endpoints cover most functionalities of the product.</source>
-        <target state="new">As an API-first product, Ibexa DXP focuses on well-structured APIs. REST API endpoints cover most functionalities of the product.</target>
+        <source>As an API-first product, Exponential Platform focuses on well-structured APIs. REST API endpoints cover most functionalities of the product.</source>
+        <target state="new">As an API-first product, Exponential Platform focuses on well-structured APIs. REST API endpoints cover most functionalities of the product.</target>
         <note>key: ibexa_platform_welcome_page.rest_api.content</note>
       </trans-unit>
       <trans-unit id="7fbe0600066941b9adaa962f34bd1901e54f0773" resname="ibexa_platform_welcome_page.rest_api.image">
@@ -204,8 +204,8 @@ The commerce documentation covers the eCommerce features and APIs of Ibexa DXP. 
         <note>key: ibexa_platform_welcome_page.tutorials.title</note>
       </trans-unit>
       <trans-unit id="3145a85713094079e585ea07ea72eabbec07ef33" resname="ibexa_platform_welcome_page.tutorials_and_resources.subheader">
-        <source>Discover the value of Ibexa DXP, our new generation Digital Experience Platform</source>
-        <target state="new">Discover the value of Ibexa DXP, our new generation Digital Experience Platform</target>
+        <source>Discover the value of Exponential Platform, our new generation Digital Experience Platform</source>
+        <target state="new">Discover the value of Exponential Platform, our new generation Digital Experience Platform</target>
         <note>key: ibexa_platform_welcome_page.tutorials_and_resources.subheader</note>
       </trans-unit>
       <trans-unit id="625cd0b04c0bd8bd185bb4306d23a6da1b61e4ea" resname="ibexa_platform_welcome_page.tutorials_and_resources.title">
@@ -219,9 +219,9 @@ The commerce documentation covers the eCommerce features and APIs of Ibexa DXP. 
         <note>key: ibexa_platform_welcome_page.user_documentation.action</note>
       </trans-unit>
       <trans-unit id="b5d01ed1d9c00ea7fa70879f697fa83394bf7fe9" resname="ibexa_platform_welcome_page.user_documentation.content">
-        <source xml:space="preserve">Manage content, products, site and content structure and much more using the Ibexa DXP administration interface.
+        <source xml:space="preserve">Manage content, products, site and content structure and much more using the Exponential Platform administration interface.
 Learn how to administrate your digital store with Ibexa Commerce. Manage products, orders and view statistics.</source>
-        <target xml:space="preserve" state="new">Manage content, products, site and content structure and much more using the Ibexa DXP administration interface.
+        <target xml:space="preserve" state="new">Manage content, products, site and content structure and much more using the Exponential Platform administration interface.
 Learn how to administrate your digital store with Ibexa Commerce. Manage products, orders and view statistics.</target>
         <note>key: ibexa_platform_welcome_page.user_documentation.content</note>
       </trans-unit>
