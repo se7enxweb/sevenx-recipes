@@ -6,7 +6,6 @@
     },
     "recipes": {
         "se7enxweb/exponential-platform-dxp": ["dev-master"],
-        "se7enxweb/exponential-platform-nexus": ["1.1"],
         "se7enxweb/site-bundle": ["3.1"],
         "se7enxweb/tagsbundle": ["5.0"]
     },

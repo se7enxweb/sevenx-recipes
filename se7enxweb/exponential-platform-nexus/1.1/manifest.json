@@ -1,5 +1,0 @@
-{
-    "copy-from-recipe": {
-        "ezpublish_legacy/": "ezpublish_legacy/"
-    }
-}
