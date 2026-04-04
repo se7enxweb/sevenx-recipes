@@ -27,8 +27,11 @@
 # To get started with security, check out the documentation:
 # https://symfony.com/doc/current/security.html
 security:
+    enable_authenticator_manager: true
     password_hashers:
         Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface: 'auto'
+        Ibexa\Core\MVC\Symfony\Security\User:
+            algorithm: auto
 
     # https://symfony.com/doc/current/security.html#b-configuring-how-users-are-loaded
     providers:
@@ -88,8 +91,6 @@ security:
             provider: ibexa
             user_checker: Ibexa\Core\MVC\Symfony\Security\UserChecker
             context: ibexa
-            custom_authenticators:
-                - Ibexa\Rest\Security\Authenticator\RestAuthenticator
 
         ibexa_front:
             pattern: ^/
