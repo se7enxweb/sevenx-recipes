@@ -5,7 +5,7 @@
         "sevenx-dxp": "se7enxweb/exponential-platform-dxp"
     },
     "recipes": {
-        "se7enxweb/exponential-platform-dxp": ["dev-master"],
+        "se7enxweb/exponential-platform-dxp": ["dev-master", "4.6.x-dev"],
         "se7enxweb/site-bundle": ["3.1"],
         "se7enxweb/tagsbundle": ["5.0"]
     },
