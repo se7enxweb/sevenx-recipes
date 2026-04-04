@@ -2,6 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const Encore = require('@symfony/webpack-encore');
 const getWebpackConfigs = require('@ibexa/frontend-config/webpack-config/get-configs');
+const getIbexaConfig = require('@ibexa/frontend-config/webpack-config/ibexa');
 const customConfigsPaths = require('./var/encore/ibexa.webpack.custom.config.js');
 
 /**
@@ -110,4 +111,21 @@ const projectConfig = Encore.getWebpackConfig();
 
 projectConfig.name = 'app';
 
-module.exports = [...customConfigs, projectConfig];
+/**
+ * The admin UI layout.html.twig uses encore_entry_script_tags(..., null, 'ibexa')
+ * which requires public/assets/ibexa/build/entrypoints.json.
+ * getIbexaConfig() reads var/encore/ibexa.config.js (populated by assets:install)
+ * and outputs to public/assets/ibexa/build/. We apply the alias fix inside the
+ * modifyEncoreConfig callback so richtext-style @ibexa-admin-ui imports resolve
+ * to our se7enxweb/admin-ui fork instead of the missing ibexa/admin-ui path.
+ */
+Encore.reset();
+const ibexaConfig = getIbexaConfig((Encore) => {
+    Encore.addAliases({
+        '@ibexa-admin-ui': path.resolve(__dirname, 'vendor/se7enxweb/admin-ui'),
+        '@ibexa-admin-ui-modules': path.resolve(__dirname, 'vendor/se7enxweb/admin-ui/src/bundle/ui-dev/src/modules'),
+    });
+});
+patchSassLoaderForLegacyImports([ibexaConfig]);
+
+module.exports = [ibexaConfig, ...customConfigs, projectConfig];
