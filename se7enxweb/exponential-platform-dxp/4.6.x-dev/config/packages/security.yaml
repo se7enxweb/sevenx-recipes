@@ -30,6 +30,7 @@ security:
     enable_authenticator_manager: true
     password_hashers:
         Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface: 'auto'
+        Ibexa\Core\MVC\Symfony\Security\User: 'auto'
 
     # https://symfony.com/doc/current/security.html#b-configuring-how-users-are-loaded
     providers:
@@ -89,6 +90,7 @@ security:
             provider: ibexa
             user_checker: Ibexa\Core\MVC\Symfony\Security\UserChecker
             context: ibexa
+            ibexa_rest_session: ~
 
         ibexa_front:
             pattern: ^/
@@ -99,6 +101,8 @@ security:
                 enable_csrf: true
                 login_path: login
                 check_path: login_check
+                default_target_path: /admin/dashboard
+                always_use_default_target_path: true
             entry_point: form_login
             logout:
                 path: logout

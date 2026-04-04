@@ -84,7 +84,8 @@ ibexa:
             assets:
                 icon_sets:
                     ids_icons: /bundles/ibexaadminuiassets/vendors/ids-assets/dist/img/all-icons.svg
-                default_icon_set: ids_icons
+                    ibexa_icons: /bundles/ibexaadminui/img/ibexa-icons.svg
+                default_icon_set: ibexa_icons
             notifier:
                 subscriptions:
                     Ibexa\Contracts\User\Notification\UserPasswordReset:
@@ -102,7 +103,7 @@ ibexa:
 
 framework:
     translator: { fallback: '%locale_fallback%' }
-    validation: { enable_attributes: true }
+    validation: { enable_annotations: true }
     default_locale: '%locale_fallback%'
     esi: true
     fragments: true
