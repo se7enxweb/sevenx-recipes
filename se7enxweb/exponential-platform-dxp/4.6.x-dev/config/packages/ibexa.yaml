@@ -94,12 +94,36 @@ ibexa:
                     Ibexa\Contracts\User\Notification\UserInvitation:
                         channels:
                             - email
+            # Fix: built-in 'original' and 'reference' variations are null by default,
+            # which crashes LegacyMapper/Configuration::getImageSettings() when the
+            # legacy kernel is booted (e.g. during cache:clear via LegacyCachePurger).
+            image_variations:
+                original:
+                    reference: ~
+                    filters: {}
+                reference:
+                    reference: ~
+                    filters: {}
         site:
             languages: [eng-GB]
         legacy_site:
             languages: [eng-GB]
+            image_variations:
+                original:
+                    reference: ~
+                    filters: {}
+                reference:
+                    reference: ~
+                    filters: {}
         legacy_admin:
             languages: [eng-GB]
+            image_variations:
+                original:
+                    reference: ~
+                    filters: {}
+                reference:
+                    reference: ~
+                    filters: {}
 
     url_alias:
         slug_converter:

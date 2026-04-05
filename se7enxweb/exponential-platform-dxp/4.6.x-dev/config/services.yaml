@@ -11,6 +11,17 @@ parameters:
     ibexa.site_access.config.site.legacy_mode: false
     ibexa.site_access.config.legacy_site.legacy_mode: true
     ibexa.site_access.config.legacy_admin.legacy_mode: true
+    ibexa.site_access.config.legacy_site.url_alias_router: false
+    ibexa.site_access.config.legacy_admin.url_alias_router: false
+    # LegacyMapper/Configuration::getClusterSettings() always fires because dfs_nfs_path has a default
+    # value. It then requires these parameters even when DFS is not in use. Define stubs here so
+    # the legacy kernel can boot without error; FileHandler is overridden to eZFSFileHandler via
+    # injected_settings in ez_publish_legacy.yaml to prevent DFS from activating.
+    dfs_database_host: ''
+    dfs_database_port: ''
+    dfs_database_name: ''
+    dfs_database_user: ''
+    dfs_database_password: ''
 
 services:
     # Fix: ezpublish.config.resolver is registered as an empty standalone ChainConfigResolver.
@@ -19,6 +30,15 @@ services:
     ezpublish.config.resolver:
         alias: Ibexa\Bundle\Core\DependencyInjection\Configuration\ChainConfigResolver
         public: true
+
+    # LegacyMapper/SiteAccess calls $this->container->get('ezpublish.siteaccess') directly,
+    # so the service must be public or the container will inline it and throw at runtime.
+    ezpublish.siteaccess:
+        class: Ibexa\Core\MVC\Symfony\SiteAccess
+        arguments: ['%ibexa.site_access.default.name%', 'uninitialized']
+        public: true
+        autowire: false
+        autoconfigure: false
     # default configuration for services in *this* file
     _defaults:
         autowire: true      # Automatically injects dependencies in your services.
@@ -43,3 +63,36 @@ services:
             $siteaccessInjectedSettings: '%app.legacy.siteaccess_injected_settings%'
             $siteaccessInjectedMergeSettings: '%app.legacy.siteaccess_injected_merge_settings%'
             $siteAccess: '@ezpublish.siteaccess'
+
+    # Override the legacy bridge RestListener with a safe version that guards
+    # against ezxFormToken not being loaded (it's only available after the legacy
+    # kernel boots, which never happens on pure-Symfony siteaccesses like /admin/).
+    ezpublish_legacy.rest_listener:
+        class: App\EventListener\LegacyRestListener
+        arguments: ['%ibexa.rest.csrf_token_intention%']
+        tags:
+            - { name: kernel.event_subscriber }
+
+    # Prevent App\ autoconfig from registering a second instance of LegacyRestListener.
+    App\EventListener\LegacyRestListener:
+        autoconfigure: false
+        arguments: ['%ibexa.rest.csrf_token_intention%']
+
+    # Override the legacy bridge RequestListener: the upstream calls the removed
+    # $repository->setCurrentUser() / ->getCurrentUserReference() methods.
+    # Ibexa 4.x moved those to $repository->getPermissionResolver()->{set,get}CurrentUserReference().
+    ezpublish_legacy.request_listener:
+        class: App\EventListener\LegacyRequestListener
+        arguments:
+            - '@ezpublish.config.resolver'
+            - '@ezpublish.api.repository'
+            - '@security.token_storage'
+        tags:
+            - { name: kernel.event_subscriber }
+
+    App\EventListener\LegacyRequestListener:
+        autoconfigure: false
+        arguments:
+            - '@ezpublish.config.resolver'
+            - '@ezpublish.api.repository'
+            - '@security.token_storage'

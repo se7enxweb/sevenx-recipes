@@ -8,12 +8,13 @@ VarDir=var/site
 
 [ExtensionSettings]
 ActiveExtensions[]
+ActiveExtensions[]=app
 ActiveExtensions[]=ezjscore
 ActiveExtensions[]=ezoe
 ActiveExtensions[]=ezformtoken
 ActiveExtensions[]=ezstarrating
 ActiveExtensions[]=ezgmaplocation
-ActiveExtensions[]=ezdemo
+ActiveExtensions[]=ezwebin
 ActiveExtensions[]=ezwt
 ActiveExtensions[]=ezflow
 ActiveExtensions[]=ezie
