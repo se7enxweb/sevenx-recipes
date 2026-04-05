@@ -1,0 +1,77 @@
+#!/usr/bin/env php
+<?php
+/**
+ * Creates symlinks that wire src/ezpublish_legacy/app/ into the installed
+ * ezpublish_legacy/ directory.  Run automatically by Composer on install/update.
+ *
+ * Symlinks created:
+ *
+ *   ezpublish_legacy/extension/app
+ *       -> ../../src/ezpublish_legacy/app
+ *       (mounts the custom "app" eZ extension)
+ *
+ *   ezpublish_legacy/settings/override
+ *       -> ../../src/ezpublish_legacy/app/root/settings/override
+ *       (global INI override dir, retained across composer reinstalls)
+ *
+ *   ezpublish_legacy/settings/siteaccess/legacy_admin
+ *       -> ../../../src/ezpublish_legacy/app/settings/siteaccess/legacy_admin
+ *       (per-siteaccess INI overrides for legacy_admin)
+ *
+ *   vendor/se7enxweb/exponential/var/autoload
+ *       -> ../../../../ezpublish_legacy/var/autoload
+ *       (fixes ezpAutoloader __DIR__ when vendor copy is loaded first)
+ */
+
+declare(strict_types=1);
+
+$root = dirname(__DIR__);
+
+$links = [
+    // [ link path (relative to project root), symlink target (relative to link's parent dir) ]
+    [
+        'ezpublish_legacy/extension/app',
+        '../../src/ezpublish_legacy/app',
+    ],
+    [
+        'ezpublish_legacy/settings/override',
+        '../../src/ezpublish_legacy/app/root/settings/override',
+    ],
+    [
+        'ezpublish_legacy/settings/siteaccess/legacy_admin',
+        '../../../src/ezpublish_legacy/app/settings/siteaccess/legacy_admin',
+    ],
+    [
+        'vendor/se7enxweb/exponential/var/autoload',
+        '../../../../ezpublish_legacy/var/autoload',
+    ],
+];
+
+$ok = 0;
+$skipped = 0;
+
+foreach ($links as [$linkRel, $target]) {
+    $link = $root . '/' . $linkRel;
+    $linkDir = dirname($link);
+
+    // Ensure parent directory exists.
+    if (!is_dir($linkDir)) {
+        mkdir($linkDir, 0755, true);
+    }
+
+    if (is_link($link)) {
+        // Replace existing symlink unconditionally so target is always correct.
+        unlink($link);
+    } elseif (file_exists($link)) {
+        // Real file or directory — do not remove, skip with a warning.
+        echo "SKIP (real path exists, not a symlink): {$linkRel}\n";
+        ++$skipped;
+        continue;
+    }
+
+    symlink($target, $link);
+    echo "Linked: {$linkRel} -> {$target}\n";
+    ++$ok;
+}
+
+echo "\nDone: {$ok} link(s) created" . ($skipped ? ", {$skipped} skipped" : '') . ".\n";
