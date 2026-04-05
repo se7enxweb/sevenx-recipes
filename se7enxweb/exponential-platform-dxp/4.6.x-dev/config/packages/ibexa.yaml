@@ -54,9 +54,9 @@ ibexa:
 
     # Siteaccess configuration, with one siteaccess per default
     siteaccess:
-        list: [site]
+        list: [site, legacy_site, legacy_admin]
         groups:
-            site_group: [site]
+            site_group: [site, legacy_site, legacy_admin]
         default_siteaccess: site
         match:
             URIElement: 1
@@ -95,6 +95,10 @@ ibexa:
                         channels:
                             - email
         site:
+            languages: [eng-GB]
+        legacy_site:
+            languages: [eng-GB]
+        legacy_admin:
             languages: [eng-GB]
 
     url_alias:

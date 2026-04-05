@@ -6,9 +6,11 @@
 parameters:
     google_recaptcha_site_key: '%env(GOOGLE_RECAPTCHA_SITE_KEY)%'
     # Legacy bridge: ensure legacy_mode is available under the ibexa.site_access.config namespace
-    # (EzPublishLegacyExtension stores it under ezsettings.* but ChainConfigResolver uses ibexa.site_access.config.*)
+    # (EzPublishLegacyExtension stores it under ezsettings.* but our ChainConfigResolver uses ibexa.site_access.config.*)
     ibexa.site_access.config.default.legacy_mode: false
     ibexa.site_access.config.site.legacy_mode: false
+    ibexa.site_access.config.legacy_site.legacy_mode: true
+    ibexa.site_access.config.legacy_admin.legacy_mode: true
 
 services:
     # Fix: ezpublish.config.resolver is registered as an empty standalone ChainConfigResolver.
@@ -33,3 +35,11 @@ services:
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
+
+    App\EventSubscriber\LegacyInjectedSettingsSubscriber:
+        arguments:
+            $injectedSettings: '%app.legacy.injected_settings%'
+            $injectedMergeSettings: '%app.legacy.injected_merge_settings%'
+            $siteaccessInjectedSettings: '%app.legacy.siteaccess_injected_settings%'
+            $siteaccessInjectedMergeSettings: '%app.legacy.siteaccess_injected_merge_settings%'
+            $siteAccess: '@ezpublish.siteaccess'

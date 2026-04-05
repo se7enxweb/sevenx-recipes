@@ -1,0 +1,51 @@
+parameters:
+    # ── Global scalar INI overrides ──────────────────────────────────────────
+    app.legacy.injected_settings:
+        'site.ini/SiteSettings/DefaultAccess': site
+        'site.ini/SiteAccessSettings/CheckValidity': 'false'
+        'site.ini/SiteAccessSettings/ForceVirtualHost': 'false'
+        'site.ini/SiteAccessSettings/RemoveSiteAccessIfDefaultAccess': enabled
+
+    # ── Global array-merge INI settings ──────────────────────────────────────
+    app.legacy.injected_merge_settings:
+        'site.ini/SiteSettings/SiteList':
+            - site
+            - legacy_site
+            - legacy_admin
+        'site.ini/SiteAccessSettings/AvailableSiteAccessList':
+            - site
+            - legacy_site
+            - legacy_admin
+
+    # ── Per-siteaccess scalar overrides ──────────────────────────────────────
+    app.legacy.siteaccess_injected_settings:
+        legacy_site:
+            'site.ini/DesignSettings/SiteDesign': sevenx_themes_simple
+            'site.ini/RegionalSettings/Locale': eng-GB
+            'site.ini/RegionalSettings/ContentObjectLocale': eng-GB
+            'site.ini/RegionalSettings/TextTranslation': disabled
+        legacy_admin:
+            'site.ini/DesignSettings/SiteDesign': admin3
+
+    # ── Per-siteaccess array-merge settings ───────────────────────────────────
+    app.legacy.siteaccess_injected_merge_settings:
+        legacy_site:
+            'site.ini/DesignSettings/AdditionalSiteDesignList':
+                - sevenx_themes_simple
+                - ezwebin
+                - standard
+            'site.ini/RegionalSettings/SiteLanguageList':
+                - eng-GB
+        legacy_admin:
+            'site.ini/DesignSettings/AdditionalSiteDesignList':
+                - admin3
+                - admin2
+                - admin
+                - standard
+
+ez_publish_legacy:
+    system:
+        legacy_site:
+            legacy_mode: true
+        legacy_admin:
+            legacy_mode: true
