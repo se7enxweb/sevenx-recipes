@@ -717,7 +717,7 @@
                     "executable": false
                 },
                 "src/ezpublish_legacy/app/settings/siteaccess/legacy_site/design.ini.append.php": {
-                    "contents": "MTs5NTswYzw/cGhwIC8qICM/aW5pIGNoYXJzZXQ9InV0Zi04Ij8KCltTdHlsZXNoZWV0U2V0dGluZ3NdClNpdGVDU1M9dmFyL3N0b3JhZ2UvcGFja2FnZXMvZVotc3lzdGVtcy9lendlYmluX2Rlc2lnbl9ibHVlL2ZpbGVzL2RlZmF1bHQvZmlsZS9zaXRlLWNvbG9ycy5jc3MKQ2xhc3Nlc0NTUz12YXIvc3RvcmFnZS9wYWNrYWdlcy9lWi1zeXN0ZW1zL2V6d2ViaW5fZGVzaWduX2JsdWUvZmlsZXMvZGVmYXVsdC9maWxlL2NsYXNzZXMtY29sb3JzLmNzcwojQ1NTRmlsZUxpc3RbXT15dWkvYnVpbGQvY2FsZW5kYXIvYXNzZXRzL2NhbGVuZGFyLmNzcwojQ1NTRmlsZUxpc3RbXT1zaXRlLWNvbG9ycy5jc3MKQ1NTRmlsZUxpc3RbXT1tYWluLXVuLmNzcwpDU1NGaWxlTGlzdFtdPW1haW4tdW4ucmVzLmNzcwoKW0phdmFTY3JpcHRTZXR0aW5nc10KI0phdmFTY3JpcHRMaXN0W109aW5zZXJ0bWVkaWEuanMKI0phdmFTY3JpcHRMaXN0W109eXVpL2J1aWxkL3lhaG9vLWRvbS1ldmVudC95YWhvby1kb20tZXZlbnQuanMKI0phdmFTY3JpcHRMaXN0W109eXVpL2J1aWxkL2NhbGVuZGFyL2NhbGVuZGFyLmpzCiNKYXZhU2NyaXB0TGlzdFtdPWV6ZGF0ZXBpY2tlci5qcwpKYXZhU2NyaXB0TGlzdFtdPW1haW4tdW4uanMKCiovID8+Cg==",
+                    "contents": "MTs5NTswYzw/cGhwIC8qICM/aW5pIGNoYXJzZXQ9InV0Zi04Ij8KCltTdHlsZXNoZWV0U2V0dGluZ3NdClNpdGVDU1M9dmFyL3N0b3JhZ2UvcGFja2FnZXMvZVotc3lzdGVtcy9lendlYmluX2Rlc2lnbl9ibHVlL2ZpbGVzL2RlZmF1bHQvZmlsZS9zaXRlLWNvbG9ycy5jc3MKQ2xhc3Nlc0NTUz12YXIvc3RvcmFnZS9wYWNrYWdlcy9lWi1zeXN0ZW1zL2V6d2ViaW5fZGVzaWduX2JsdWUvZmlsZXMvZGVmYXVsdC9maWxlL2NsYXNzZXMtY29sb3JzLmNzcwojQ1NTRmlsZUxpc3RbXT15dWkvYnVpbGQvY2FsZW5kYXIvYXNzZXRzL2NhbGVuZGFyLmNzcwojQ1NTRmlsZUxpc3RbXT1zaXRlLWNvbG9ycy5jc3MKQ1NTRmlsZUxpc3RbXT1tYWluLmNzcwpDU1NGaWxlTGlzdFtdPW1haW4ucmVzLmNzcwoKW0phdmFTY3JpcHRTZXR0aW5nc10KI0phdmFTY3JpcHRMaXN0W109aW5zZXJ0bWVkaWEuanMKI0phdmFTY3JpcHRMaXN0W109eXVpL2J1aWxkL3lhaG9vLWRvbS1ldmVudC95YWhvby1kb20tZXZlbnQuanMKI0phdmFTY3JpcHRMaXN0W109eXVpL2J1aWxkL2NhbGVuZGFyL2NhbGVuZGFyLmpzCiNKYXZhU2NyaXB0TGlzdFtdPWV6ZGF0ZXBpY2tlci5qcwpKYXZhU2NyaXB0TGlzdFtdPW1haW4uanMKCiovID8+Cg==",
                     "executable": false
                 },
                 "src/ezpublish_legacy/app/settings/siteaccess/legacy_site/image.ini.append.php": {
@@ -805,7 +805,7 @@
                     "executable": false
                 }
             },
-            "ref": "73b6b3ecdc997e95205a81b01d8dd45dade0f841"
+            "ref": "4c59d8c858d4573e9103462d136bedfec3475d50"
         }
     }
 }
