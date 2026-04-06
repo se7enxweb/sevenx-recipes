@@ -41,6 +41,13 @@ services:
     ezpublish.siteaccess:
         alias: 'Ibexa\Core\MVC\Symfony\SiteAccess'
         public: true
+
+    # ngsymfonytoolsapicontentconverter (and others) call $container->get('ezpublish.api.repository')
+    # directly at runtime — the service must be public so Symfony doesn't inline/remove it.
+    ezpublish.api.repository:
+        alias: Ibexa\Contracts\Core\Repository\Repository
+        public: true
+
     # default configuration for services in *this* file
     _defaults:
         autowire: true      # Automatically injects dependencies in your services.

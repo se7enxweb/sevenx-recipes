@@ -35,15 +35,23 @@ $links = [
     ],
     [
         'ezpublish_legacy/settings/override',
-        '../../src/ezpublish_legacy/app/root/settings/override',
+        '../../src/LegacySettings/override',
+    ],
+    [
+        'ezpublish_legacy/settings/siteaccess/ngadminui',
+        '../../../src/ezpublish_legacy/app/settings/siteaccess/ngadminui',
+    ],
+    [
+        'ezpublish_legacy/settings/siteaccess/legacy_site',
+        '../../../src/ezpublish_legacy/app/settings/siteaccess/legacy_site',
     ],
     [
         'ezpublish_legacy/settings/siteaccess/legacy_admin',
         '../../../src/ezpublish_legacy/app/settings/siteaccess/legacy_admin',
     ],
     [
-        'vendor/se7enxweb/exponential/var/autoload',
-        '../../../../ezpublish_legacy/var/autoload',
+        'ezpublish_legacy/var/site/storage',
+        '../../../src/LegacyRoot/var/site/storage',
     ],
 ];
 
