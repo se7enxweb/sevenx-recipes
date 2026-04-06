@@ -1,10 +1,14 @@
 parameters:
     # ── Global scalar INI overrides ──────────────────────────────────────────
     app.legacy.injected_settings:
-        'site.ini/SiteSettings/DefaultAccess': site
+        # Override DFS cluster: LegacyMapper always injects eZDFSFileHandler because dfs_nfs_path
+        # has a default container parameter, but this is not a DFS environment.
+        'file.ini/ClusteringSettings/FileHandler': eZFSFileHandler
+        'site.ini/SiteSettings/DefaultAccess': legacy_site
         'site.ini/SiteAccessSettings/CheckValidity': 'false'
+        'site.ini/SiteAccessSettings/HostMatch': 'uri'
         'site.ini/SiteAccessSettings/ForceVirtualHost': 'false'
-        'site.ini/SiteAccessSettings/RemoveSiteAccessIfDefaultAccess': enabled
+        'site.ini/SiteAccessSettings/RemoveSiteAccessIfDefaultAccess': disabled
 
     # ── Global array-merge INI settings ──────────────────────────────────────
     app.legacy.injected_merge_settings:
@@ -16,32 +20,30 @@ parameters:
             - site
             - legacy_site
             - legacy_admin
+        'site.ini/ExtensionSettings/ActiveExtensions':
+            - ezjscore
+            - ezoe
+            - eztags
+            - ezstarrating
+            - ezrichtext
+            - ngsymfonytools
+            - recaptcha
+            - xrowmetadata
+            - bcgooglesitemaps
+            - bcwebsitestatistics
+            - ezwebin
+            - sevenx_themes_simple
+            - app
 
     # ── Per-siteaccess scalar overrides ──────────────────────────────────────
-    app.legacy.siteaccess_injected_settings:
-        legacy_site:
-            'site.ini/DesignSettings/SiteDesign': sevenx_themes_simple
-            'site.ini/RegionalSettings/Locale': eng-GB
-            'site.ini/RegionalSettings/ContentObjectLocale': eng-GB
-            'site.ini/RegionalSettings/TextTranslation': disabled
-        legacy_admin:
-            'site.ini/DesignSettings/SiteDesign': admin3
+    # NOTE: eZINI::injectSettings() is static/global — per-siteaccess values
+    # injected here leak across ALL siteaccesses (whichever is active at kernel
+    # build time wins for the process lifetime). All siteaccess-specific settings
+    # must live in settings/siteaccess/{name}/*.ini.append.php instead.
+    app.legacy.siteaccess_injected_settings: {}
 
     # ── Per-siteaccess array-merge settings ───────────────────────────────────
-    app.legacy.siteaccess_injected_merge_settings:
-        legacy_site:
-            'site.ini/DesignSettings/AdditionalSiteDesignList':
-                - sevenx_themes_simple
-                - ezwebin
-                - standard
-            'site.ini/RegionalSettings/SiteLanguageList':
-                - eng-GB
-        legacy_admin:
-            'site.ini/DesignSettings/AdditionalSiteDesignList':
-                - admin3
-                - admin2
-                - admin
-                - standard
+    app.legacy.siteaccess_injected_merge_settings: {}
 
 ez_publish_legacy:
     system:

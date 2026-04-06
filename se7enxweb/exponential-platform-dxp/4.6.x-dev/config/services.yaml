@@ -17,7 +17,7 @@ parameters:
     # value. It then requires these parameters even when DFS is not in use. Define stubs here so
     # the legacy kernel can boot without error; FileHandler is overridden to eZFSFileHandler via
     # injected_settings in ez_publish_legacy.yaml to prevent DFS from activating.
-    dfs_database_host: ''
+    dfs_database_host: 'localhost'
     dfs_database_port: ''
     dfs_database_name: ''
     dfs_database_user: ''
@@ -31,14 +31,16 @@ services:
         alias: Ibexa\Bundle\Core\DependencyInjection\Configuration\ChainConfigResolver
         public: true
 
-    # LegacyMapper/SiteAccess calls $this->container->get('ezpublish.siteaccess') directly,
-    # so the service must be public or the container will inline it and throw at runtime.
+    # LegacyMapper/SiteAccess calls $this->container->get('ezpublish.siteaccess') directly.
+    # Must be a public alias to the shared Ibexa\Core\MVC\Symfony\SiteAccess service so
+    # the old bridge mapper gets the same object that SiteAccessListener mutates per-request
+    # (setting ->name to the matched siteaccess, e.g. 'legacy_site' or 'legacy_admin').
+    # Using a standalone class: definition here creates a second, never-updated instance
+    # which always returns name='site' (the Ibexa default), causing eZSiteAccess::change('site')
+    # to find no siteaccess override dir and fall back to the base SiteDesign=admin.
     ezpublish.siteaccess:
-        class: Ibexa\Core\MVC\Symfony\SiteAccess
-        arguments: ['%ibexa.site_access.default.name%', 'uninitialized']
+        alias: 'Ibexa\Core\MVC\Symfony\SiteAccess'
         public: true
-        autowire: false
-        autoconfigure: false
     # default configuration for services in *this* file
     _defaults:
         autowire: true      # Automatically injects dependencies in your services.
