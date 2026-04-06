@@ -8,22 +8,12 @@ VarDir=var/site
 
 [ExtensionSettings]
 ActiveExtensions[]
-ActiveExtensions[]=app
-ActiveExtensions[]=sevenx_themes_simple
-ActiveExtensions[]=xrowmetadata
-ActiveExtensions[]=hcaptcha
-ActiveExtensions[]=recaptcha
-ActiveExtensions[]=eztags
-ActiveExtensions[]=birthday
-ActiveExtensions[]=ezoe
-ActiveExtensions[]=bcwebsitestatistics
-ActiveExtensions[]=bcgooglesitemaps
 ActiveExtensions[]=ezjscore
 ActiveExtensions[]=ezoe
 ActiveExtensions[]=ezformtoken
 ActiveExtensions[]=ezstarrating
 ActiveExtensions[]=ezgmaplocation
-ActiveExtensions[]=ezwebin
+ActiveExtensions[]=ezdemo
 ActiveExtensions[]=ezwt
 ActiveExtensions[]=ezflow
 ActiveExtensions[]=ezie
@@ -31,29 +21,28 @@ ActiveExtensions[]=ezodf
 ActiveExtensions[]=ezprestapiprovider
 ActiveExtensions[]=ezmultiupload
 ActiveExtensions[]=ezautosave
-# ActiveExtensions[]=ezmbpaex
+ActiveExtensions[]=ezmbpaex
 
 # Optional, see: https://packagist.org/packages/ezsystems/eztags-ls
-ActiveExtensions[]=eztags
+#ActiveExtensions[]=eztags
 
 ## Some recommended bundles/extensions for use with legacy bridge setups:
 # Extra features to reuse code from Symfony in legacy: https://packagist.org/packages/netgen/ngsymfonytools
-ActiveExtensions[]=ngsymfonytools
+#ActiveExtensions[]=ngsymfonytools
 
 # Use SolrBundle from legacy: https://packagist.org/packages/netgen/ezplatformsearch
 #ActiveExtensions[]=ezplatformsearch
 
 # Edit eZ Platform richtext in raw xml on legacy: https://packagist.org/packages/netgen/richtext-datatype-bundle
-ActiveExtensions[]=ezrichtext
+#ActiveExtensions[]=ezrichtext
 
 [Session]
 SessionNameHandler=custom
 
 [SiteSettings]
-DefaultAccess=legacy_site
+DefaultAccess=site
 SiteList[]
 SiteList[]=site
-SiteList[]=legacy_site
 SiteList[]=legacy_admin
 RootNodeDepth=1
 
@@ -64,7 +53,6 @@ LogoutRedirect=/
 CheckValidity=false
 AvailableSiteAccessList[]
 AvailableSiteAccessList[]=site
-AvailableSiteAccessList[]=legacy_site
 AvailableSiteAccessList[]=legacy_admin
 MatchOrder=uri
 HostMatchMapItems[]
@@ -91,12 +79,12 @@ InlineViewModes[]=embed-inline
 DesignLocationCache=enabled
 
 [DebugSettings]
-DebugOutput=enabled
+DebugOutput=disabled
 DebugRedirection=disabled
 
 [TemplateSettings]
 DevelopmentMode=disabled
-ShowUsedTemplates=enabled
+ShowUsedTemplates=disabled
 Debug=disabled
 
 */ ?>

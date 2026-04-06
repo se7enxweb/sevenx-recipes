@@ -8,7 +8,6 @@ use eZ\Publish\Core\MVC\Legacy\Event\PreBuildKernelEvent;
 use eZ\Publish\Core\MVC\Legacy\LegacyEvents;
 use eZ\Publish\Core\MVC\Symfony\SiteAccess;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Symfony\Component\HttpFoundation\RequestStack;
 
 /**
  * Injects INI settings into the legacy kernel at boot time.
@@ -38,7 +37,6 @@ final class LegacyInjectedSettingsSubscriber implements EventSubscriberInterface
         private readonly array $siteaccessInjectedSettings,
         private readonly array $siteaccessInjectedMergeSettings,
         private readonly SiteAccess $siteAccess,
-        private readonly RequestStack $requestStack,
     ) {
     }
 
@@ -53,13 +51,8 @@ final class LegacyInjectedSettingsSubscriber implements EventSubscriberInterface
 
     public function onPreBuildKernel(PreBuildKernelEvent $event): void
     {
-        // Resolve the current siteaccess name. The injected $siteAccess may be a
-        // different object than the one SiteAccessListener updates, so prefer the
-        // request attribute (set by SiteAccessListener before this event fires).
-        $request = $this->requestStack->getCurrentRequest();
-        $requestSA = $request?->attributes->get('siteaccess');
-        $saName = ($requestSA instanceof SiteAccess ? $requestSA->name : null)
-            ?? $this->siteAccess->name;
+        // Per-siteaccess values overlay globals (left-hand + wins).
+        $saName = $this->siteAccess->name;
 
         $settings = ($this->siteaccessInjectedSettings[$saName] ?? []) + $this->injectedSettings;
         $mergeSettings = ($this->siteaccessInjectedMergeSettings[$saName] ?? []) + $this->injectedMergeSettings;

@@ -21,11 +21,6 @@
  *   vendor/se7enxweb/exponential/var/autoload
  *       -> ../../../../ezpublish_legacy/var/autoload
  *       (fixes ezpAutoloader __DIR__ when vendor copy is loaded first)
- *
- *   src/ezpublish_legacy/app/settings/siteaccess/legacy_admin/{content,contentstructuremenu,dashboard,design,image,override,toolbar}.ini.append.php
- *       -> ../ngadminui/{same filename}
- *       (legacy_admin delegates most INI config to ngadminui; zip-deployed recipes
- *        cannot carry symlinks so these are created here instead)
  */
 
 declare(strict_types=1);
@@ -40,54 +35,15 @@ $links = [
     ],
     [
         'ezpublish_legacy/settings/override',
-        '../../src/LegacySettings/override',
-    ],
-    [
-        'ezpublish_legacy/settings/siteaccess/ngadminui',
-        '../../../src/ezpublish_legacy/app/settings/siteaccess/ngadminui',
-    ],
-    [
-        'ezpublish_legacy/settings/siteaccess/legacy_site',
-        '../../../src/ezpublish_legacy/app/settings/siteaccess/legacy_site',
+        '../../src/ezpublish_legacy/app/root/settings/override',
     ],
     [
         'ezpublish_legacy/settings/siteaccess/legacy_admin',
         '../../../src/ezpublish_legacy/app/settings/siteaccess/legacy_admin',
     ],
     [
-        'ezpublish_legacy/var/site/storage',
-        '../../../src/LegacyRoot/var/site/storage',
-    ],
-    // Per-file symlinks inside legacy_admin/ that delegate to ngadminui settings.
-    // These cannot be stored as symlinks in the Flex recipe (zip strips them),
-    // so they are created here instead.
-    [
-        'src/ezpublish_legacy/app/settings/siteaccess/legacy_admin/content.ini.append.php',
-        '../ngadminui/content.ini.append.php',
-    ],
-    [
-        'src/ezpublish_legacy/app/settings/siteaccess/legacy_admin/contentstructuremenu.ini.append.php',
-        '../ngadminui/contentstructuremenu.ini.append.php',
-    ],
-    [
-        'src/ezpublish_legacy/app/settings/siteaccess/legacy_admin/dashboard.ini.append.php',
-        '../ngadminui/dashboard.ini.append.php',
-    ],
-    [
-        'src/ezpublish_legacy/app/settings/siteaccess/legacy_admin/design.ini.append.php',
-        '../ngadminui/design.ini.append.php',
-    ],
-    [
-        'src/ezpublish_legacy/app/settings/siteaccess/legacy_admin/image.ini.append.php',
-        '../ngadminui/image.ini.append.php',
-    ],
-    [
-        'src/ezpublish_legacy/app/settings/siteaccess/legacy_admin/override.ini.append.php',
-        '../ngadminui/override.ini.append.php',
-    ],
-    [
-        'src/ezpublish_legacy/app/settings/siteaccess/legacy_admin/toolbar.ini.append.php',
-        '../ngadminui/toolbar.ini.append.php',
+        'vendor/se7enxweb/exponential/var/autoload',
+        '../../../../ezpublish_legacy/var/autoload',
     ],
 ];
 
