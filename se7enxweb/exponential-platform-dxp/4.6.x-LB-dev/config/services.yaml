@@ -105,3 +105,15 @@ services:
             - '@ezpublish.config.resolver'
             - '@ezpublish.api.repository'
             - '@security.token_storage'
+
+    # ── Exponential Platform installer type "exponential-oss" ──────────────────
+    # Registers the "exponential-oss" install type so that:
+    #   php bin/console ibexa:install exponential-oss
+    #   php bin/console ezplatform:install exponential-oss  (deprecated alias)
+    # both work.  Delegates to CoreInstaller (schema + cleandata.sql seed data).
+    App\Installer\ExponentialOssInstaller:
+        autowire: true
+        lazy: false
+        parent: Ibexa\Bundle\RepositoryInstaller\Installer\DbBasedInstaller
+        tags:
+            - { name: ibexa.installer, type: exponential-oss }
