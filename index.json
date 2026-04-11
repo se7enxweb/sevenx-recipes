@@ -7,8 +7,8 @@
     "recipes": {
         "se7enxweb/exponential-platform-dxp": [
             "dev-master",
-            "4.6.x-dev",
-            "4.6.x-LB-dev"
+            "4.6.x-LB-dev",
+            "4.6.x-dev"
         ],
         "se7enxweb/site-bundle": [
             "3.1"
