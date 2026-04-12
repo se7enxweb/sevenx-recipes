@@ -8,6 +8,9 @@
         "se7enxweb/doctrine-dbal-schema": [
             "1.0"
         ],
+        "se7enxweb/ezplatform-solr-search-engine": [
+            "3.3"
+        ],
         "se7enxweb/exponential-platform-dxp": [
             "dev-master",
             "4.6.x-LB-dev",
