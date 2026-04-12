@@ -1,0 +1,15 @@
+{
+    "manifests": {
+        "se7enxweb/doctrine-dbal-schema": {
+            "manifest": {
+                "bundles": {
+                    "EzSystems\\DoctrineSchemaBundle\\DoctrineSchemaBundle": [
+                        "all"
+                    ]
+                }
+            },
+            "files": {},
+            "ref": "2ad788f0459b0106a24e7d4d0abee684c96ba786"
+        }
+    }
+}
