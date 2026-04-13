@@ -12,6 +12,7 @@
             "3.3"
         ],
         "se7enxweb/exponential-platform-dxp": [
+            "dev-5.x-LB",
             "dev-master",
             "5.0",
             "5.x-LB-dev",
