@@ -1,0 +1,6 @@
+netgen_layouts:
+    resource: "@NetgenLayoutsBundle/Resources/config/routing.yaml"
+    prefix: "%netgen_layouts.route_prefix%"
+
+netgen_layouts_ibexa:
+    resource: "@NetgenLayoutsIbexaBundle/Resources/config/routing.yaml"
