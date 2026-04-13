@@ -12,12 +12,8 @@
             "3.3"
         ],
         "se7enxweb/exponential-platform-dxp": [
-            "dev-5.x-LB",
-            "dev-master",
-            "5.0",
-            "5.x-LB-dev",
-            "4.6.x-LB-dev",
-            "4.6.x-dev"
+            "4.6.x-dev",
+            "5.0"
         ],
         "se7enxweb/site-bundle": [
             "3.1"
