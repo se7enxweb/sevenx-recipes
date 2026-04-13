@@ -6,7 +6,7 @@ namespace App\EventSubscriber;
 
 use eZ\Publish\Core\MVC\Legacy\Event\PreBuildKernelEvent;
 use eZ\Publish\Core\MVC\Legacy\LegacyEvents;
-use eZ\Publish\Core\MVC\Symfony\SiteAccess;
+use Ibexa\Core\MVC\Symfony\SiteAccess;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 
