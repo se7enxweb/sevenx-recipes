@@ -24,20 +24,58 @@ declare(strict_types=1);
 
 namespace App\Installer;
 
+use Doctrine\DBAL\Platforms\PostgreSQLPlatform;
+use Doctrine\DBAL\Platforms\SqlitePlatform;
 use Ibexa\Bundle\RepositoryInstaller\Installer\CoreInstaller;
 
 /**
  * Installer for the "exponential-oss" install type.
  *
- * Extends CoreInstaller unchanged.  All logic lives in CoreInstaller /
- * DbBasedInstaller; this class exists so its service definition can carry the
- * { name: ibexa.installer, type: exponential-oss } tag independently of the
- * upstream "ibexa-oss" registration — meaning both types are simultaneously
- * available without interfering with each other.
+ * Extends CoreInstaller and additionally imports the Netgen Layouts schema
+ * (nglayouts_* tables) so that the admin UI works out of the box on a fresh
+ * installation without requiring a separate migration step.
  */
 final class ExponentialOssInstaller extends CoreInstaller
 {
-    // No overrides needed for the base "exponential-oss" type.
-    // Add importSchema() / importData() / importBinaries() overrides here
-    // if you want to customise what gets installed.
+    /**
+     * Import the Ibexa schema (via SchemaBuilder) and then the Netgen Layouts
+     * schema from its bundled SQL file.
+     */
+    public function importSchema(): void
+    {
+        parent::importSchema();
+        $this->importNetgenLayoutsSchema();
+    }
+
+    /**
+     * Load the DBMS-specific Netgen Layouts DDL file and execute it.
+     *
+     * File locations inside vendor/netgen/layouts-core:
+     *  - MySQL      : resources/data/schema.mysql.sql
+     *  - PostgreSQL : resources/data/schema.pgsql.sql
+     *  - SQLite     : tests/_fixtures/schema/schema.sqlite.sql
+     */
+    private function importNetgenLayoutsSchema(): void
+    {
+        $platform = $this->db->getDatabasePlatform();
+        $vendorDir = \dirname(__DIR__, 2) . '/vendor';
+
+        if ($platform instanceof SqlitePlatform) {
+            $schemaFile = $vendorDir . '/netgen/layouts-core/tests/_fixtures/schema/schema.sqlite.sql';
+        } elseif ($platform instanceof PostgreSQLPlatform) {
+            $schemaFile = $vendorDir . '/netgen/layouts-core/resources/data/schema.pgsql.sql';
+        } else {
+            $schemaFile = $vendorDir . '/netgen/layouts-core/resources/data/schema.mysql.sql';
+        }
+
+        if (!\is_readable($schemaFile)) {
+            $this->output->writeln(
+                '<comment>Netgen Layouts schema file not found, skipping: ' . $schemaFile . '</comment>'
+            );
+
+            return;
+        }
+
+        $this->runQueriesFromFile(\realpath($schemaFile));
+    }
 }
