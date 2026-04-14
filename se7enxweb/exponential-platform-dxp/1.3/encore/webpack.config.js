@@ -128,4 +128,7 @@ const ibexaConfig = getIbexaConfig((Encore) => {
 });
 patchSassLoaderForLegacyImports([ibexaConfig]);
 
-module.exports = [ibexaConfig, ...customConfigs, projectConfig];
+const libsConfigsPaths = require('./var/encore/ibexa.webpack.libs.config.js');
+const libsConfigs = getWebpackConfigs(Encore, libsConfigsPaths);
+
+module.exports = [ibexaConfig, ...libsConfigs, ...customConfigs, projectConfig];

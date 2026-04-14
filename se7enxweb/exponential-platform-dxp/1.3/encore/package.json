@@ -40,7 +40,7 @@
     "build": "encore production --progress",
     "ibexa:dev": "encore dev --config-name ibexa",
     "ibexa:watch": "encore dev --watch --config-name ibexa",
-    "ibexa:build": "encore production --progress --config-name ibexa"
+    "ibexa:build": "encore production --progress --config-name ibexa && encore production --progress --config-name react && encore production --progress --config-name reactDOM"
   },
   "packageManager": "yarn@1.22.22"
 }
