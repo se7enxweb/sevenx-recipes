@@ -131,4 +131,12 @@ patchSassLoaderForLegacyImports([ibexaConfig]);
 const libsConfigsPaths = require('./var/encore/ibexa.webpack.libs.config.js');
 const libsConfigs = getWebpackConfigs(Encore, libsConfigsPaths);
 
-module.exports = [ibexaConfig, ...libsConfigs, ...customConfigs, projectConfig];
+const richtextConfigsPaths = require('./var/encore/ibexa.webpack.richtext.config.js');
+const richtextConfigs = getWebpackConfigs(Encore, richtextConfigsPaths);
+richtextConfigs.forEach((config) => {
+    if (config && config.resolve && config.resolve.alias) {
+        config.resolve.alias['@ibexa-admin-ui'] = path.resolve(__dirname, 'vendor/se7enxweb/admin-ui');
+    }
+});
+
+module.exports = [ibexaConfig, ...libsConfigs, ...richtextConfigs, ...customConfigs, projectConfig];
