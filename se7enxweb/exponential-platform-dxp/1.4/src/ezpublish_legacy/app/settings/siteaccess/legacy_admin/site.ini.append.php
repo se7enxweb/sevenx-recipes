@@ -11,6 +11,8 @@ RelatedSiteAccessList[]=fh_eng
 RelatedSiteAccessList[]=bold_eng
 RelatedSiteAccessList[]=bold_ger
 RelatedSiteAccessList[]=legacy_admin
+RelatedSiteAccessList[]=legacy_site
+RelatedSiteAccessList[]=site
 RelatedSiteAccessList[]=ngadminui
 ShowHiddenNodes=true
 
@@ -27,10 +29,12 @@ ContentObjectLocale=eng-GB
 ShowUntranslatedObjects=enabled
 SiteLanguageList[]
 SiteLanguageList[]=eng-GB
-SiteLanguageList[]=ger-DE
+#SiteLanguageList[]=eng-US
+#SiteLanguageList[]=ger-DE
 TextTranslation=disabled
 
 [ContentSettings]
 CachedViewPreferences[full]=admin_navigation_content=1;admin_children_viewmode=list;admin_list_limit=1
 TranslationList=
+
 */ ?>

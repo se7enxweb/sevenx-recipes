@@ -32,8 +32,11 @@ ShowUsedTemplates=enabled
 [InformationCollectionSettings]
 EmailReceiver=info@example.com
 
+[Session]
+SessionNamePerSiteAccess=disabled
+
 [SiteSettings]
-SiteName=Exponential Platform Legacy - Legacy Site
+SiteName=Exponential Platform Legacy - Site
 SiteURL=demo.example.com
 LoginPage=embedded
 
@@ -42,6 +45,9 @@ AdditionalLoginFormActionURL=http://edit.graham.example.com/user/login
 
 IndexPage=/content/view/full/2/
 DefaultPage=/content/view/full/2/
+
+[UserSettings]
+RegistrationEmail=info@example.com
 
 [SiteAccessSettings]
 ShowHiddenNodes=false
@@ -69,12 +75,6 @@ SiteLanguageList[]=eng-GB
 #SiteLanguageList[]=eng-US
 #SiteLanguageList[]=ger-DE
 TextTranslation=disabled
-
-[UserSettings]
-RegistrationEmail=info@example.com
-
-[Session]
-SessionNamePerSiteAccess=disabled
 
 [FileSettings]
 VarDir=var/site
