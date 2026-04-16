@@ -1,13 +1,30 @@
 <?php /* #?ini charset="utf-8"?
 
-[DatabaseSettings]
-Charset=utf8mb4
+# TIP: Below are settings that could make sense to invert for debug needs during legacy development.
+# Especially [TemplateSettings]DevelopmentMode to not have to clear cache every time you change a template.
 
-[FileSettings]
-VarDir=var/site
+[DebugSettings]
+DebugOutput=enabled
+DebugRedirection=disabled
+
+[TemplateSettings]
+DevelopmentMode=disabled
+ShowUsedTemplates=enabled
+Debug=disabled
+
+[DatabaseSettings]
+# TIP: Uncomment and set DatabaseImplementation + Database below to use SQLite3
+# for local development (no MySQL server required). The path is relative to the
+# ezpublish_legacy/ directory. Remove or leave commented for MySQL/PostgreSQL.
+#DatabaseImplementation=sqlite3
+#Database=../var/data_dev.db
+Charset=utf8mb4
 
 [ExtensionSettings]
 ActiveExtensions[]
+# sevenx_exponential_platform_v5_database_translator MUST be first — it overrides
+# DatabaseSettings.ImplementationAlias before any other extension opens a DB connection.
+ActiveExtensions[]=sevenx_exponential_platform_v5_database_translator
 ActiveExtensions[]=app
 ActiveExtensions[]=ngsite
 ActiveExtensions[]=sevenx_themes_simple
@@ -58,9 +75,6 @@ SiteList[]=legacy_site
 SiteList[]=legacy_admin
 RootNodeDepth=1
 
-[UserSettings]
-LogoutRedirect=/
-
 [SiteAccessSettings]
 CheckValidity=false
 AvailableSiteAccessList[]
@@ -69,6 +83,12 @@ AvailableSiteAccessList[]=legacy_site
 AvailableSiteAccessList[]=legacy_admin
 MatchOrder=uri
 HostMatchMapItems[]
+
+[FileSettings]
+VarDir=var/site
+
+[UserSettings]
+LogoutRedirect=/
 
 [RegionalSettings]
 TranslationSA[]
@@ -85,19 +105,7 @@ AvailableViewModes[]=embed-inline
 InlineViewModes[]
 InlineViewModes[]=embed-inline
 
-# TIP: Below are settings that could make sense to invert for debug needs during legacy development.
-# Especially [TemplateSettings]DevelopmentMode to not have to clear cache every time you change a template.
-
 [DesignSettings]
 DesignLocationCache=enabled
-
-[DebugSettings]
-DebugOutput=enabled
-DebugRedirection=disabled
-
-[TemplateSettings]
-DevelopmentMode=disabled
-ShowUsedTemplates=enabled
-Debug=disabled
 
 */ ?>
