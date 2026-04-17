@@ -47,6 +47,10 @@ $links = [
         '../../../src/ezpublish_legacy/app/settings/siteaccess/ngadminui',
     ],
     [
+        'ezpublish_legacy/settings/siteaccess/site',
+        '../../../src/ezpublish_legacy/app/settings/siteaccess/site',
+    ],
+    [
         'ezpublish_legacy/settings/siteaccess/legacy_site',
         '../../../src/ezpublish_legacy/app/settings/siteaccess/legacy_site',
     ],
