@@ -158,9 +158,6 @@
     "assets/": "assets/",
     "src/": "%SRC_DIR%/"
   },
-  "symlinks": {
-    "web": "public"
-  },
   "env": {
     "SEARCH_ENGINE": "legacy",
     "#1": "Uncomment following line if you want to change the purge type.",
