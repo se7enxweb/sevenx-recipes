@@ -1,0 +1,162 @@
+#!/usr/bin/env python3
+"""Build the served Symfony Flex recipe JSON from a recipe slot directory.
+
+Symfony Flex never reads the slot directories. It downloads the compiled file
+<package with / replaced by .>.<slot>.json from the repository root (see
+"recipe_template" in index.json), which carries the manifest and every recipe
+file base64-encoded. Every change under a slot directory therefore has to be
+compiled into that JSON, or Flex clients never see it.
+
+Usage (from the repository root):
+  bin/build-recipe-manifest <package> <slot> [--ref <sha>] [--check]
+
+  bin/build-recipe-manifest se7enxweb/exponential-platform-dxp 1.4
+  bin/build-recipe-manifest se7enxweb/exponential-platform-dxp 1.4 --check
+
+What it writes into manifests.<package> of the compiled JSON:
+  manifest   the slot's manifest.json, parsed
+  files      every regular, non-empty file under the slot directory, plus
+             manifest.json itself, base64-encoded. Symbolic links and empty
+             placeholder files (.gitkeep) are not part of a compiled recipe.
+             An existing entry keeps its "executable" flag; a new entry takes
+             the file's executable bit.
+  ref        --ref, or by default the repository's current HEAD commit (the
+             commit the rebuild is made on). Flex compares this value with
+             the ref recorded in a project's symfony.lock to decide whether a
+             recipe update is available, so it must change whenever the
+             served content changes. It is only rewritten when the content
+             changes.
+
+--check   writes nothing; exits 1 and lists the differences when the compiled
+          JSON does not match the slot directory.
+
+The compiled file is re-serialised the way it was written (4-space indent,
+escaped slashes and no final newline, as PHP's json_encode() writes it). The tool refuses to write when an unchanged file would not
+re-serialise byte for byte. Prints PASS or FAIL.
+"""
+import base64
+import json
+import os
+import subprocess
+import sys
+
+
+def serialisers():
+    """The output styles seen in this repository: PHP json_encode() with
+    JSON_PRETTY_PRINT (escaped slashes, no final newline) and hand-written files."""
+    for escape in (True, False):
+        for newline in ('', '\n'):
+            def serialise(data, escape=escape, newline=newline):
+                out = json.dumps(data, indent=4, ensure_ascii=False)
+                return (out.replace('/', '\\/') if escape else out) + newline
+            yield serialise
+
+
+def source_files(slotdir):
+    found = {}
+    for root, dirs, names in os.walk(slotdir):
+        dirs.sort()
+        for name in sorted(names):
+            path = os.path.join(root, name)
+            rel = os.path.relpath(path, slotdir).replace(os.sep, '/')
+            if os.path.islink(path) or not os.path.isfile(path):
+                continue
+            if os.path.getsize(path) == 0:
+                continue
+            found[rel] = path
+    return found
+
+
+def main(argv):
+    args = list(argv)
+    ref = None
+    check = False
+    if '--ref' in args:
+        i = args.index('--ref')
+        if i + 1 >= len(args):
+            print('FAIL: --ref needs a value')
+            return 2
+        ref = args[i + 1]
+        del args[i:i + 2]
+    if '--check' in args:
+        args.remove('--check')
+        check = True
+    if len(args) != 2:
+        print(__doc__)
+        return 2
+    package, slot = args
+    repo = os.getcwd()
+    slotdir = os.path.join(repo, package, slot)
+    compiled = os.path.join(repo, '%s.%s.json' % (package.replace('/', '.'), slot))
+    if not os.path.isfile(os.path.join(slotdir, 'manifest.json')):
+        print('FAIL: %s/manifest.json not found (run from the repository root)' % slotdir)
+        return 2
+    if not os.path.isfile(compiled):
+        print('FAIL: %s not found; create it by hand once, then rebuild' % compiled)
+        return 2
+
+    raw = open(compiled, encoding='utf-8').read()
+    data = json.loads(raw)
+    serialise = next((s for s in serialisers() if s(data) == raw), None)
+    if serialise is None:
+        print('FAIL: %s does not re-serialise byte for byte; not touching it' % compiled)
+        return 1
+    entry = data['manifests'][package]
+    manifest = json.load(open(os.path.join(slotdir, 'manifest.json'), encoding='utf-8'))
+    src = source_files(slotdir)
+    old = entry.get('files', {})
+
+    diffs = []
+    if entry.get('manifest') != manifest:
+        keys = sorted(set(manifest) | set(entry.get('manifest', {})))
+        changed = [k for k in keys if manifest.get(k) != entry.get('manifest', {}).get(k)]
+        diffs.append('manifest keys differ: %s' % ', '.join(changed))
+    files = {}
+    for rel, meta in old.items():
+        if rel not in src:
+            diffs.append('removed  %s' % rel)
+            continue
+        body = base64.b64encode(open(src[rel], 'rb').read()).decode('ascii')
+        if body != meta.get('contents'):
+            diffs.append('updated  %s' % rel)
+        files[rel] = dict(meta, contents=body)
+    for rel in sorted(set(src) - set(old)):
+        diffs.append('added    %s' % rel)
+        files[rel] = {
+            'contents': base64.b64encode(open(src[rel], 'rb').read()).decode('ascii'),
+            'executable': os.access(src[rel], os.X_OK),
+        }
+
+    for line in diffs:
+        print(line)
+    if check:
+        print('ref %s' % entry.get('ref'))
+        print('PASS: compiled JSON matches the slot' if not diffs else
+              'FAIL: %d difference(s); run without --check to rebuild' % len(diffs))
+        return 1 if diffs else 0
+    if not diffs:
+        print('PASS: %s already matches the slot; nothing written' % os.path.basename(compiled))
+        return 0
+
+    if ref is None:
+        ref = subprocess.check_output(['git', 'rev-parse', 'HEAD'], cwd=repo, text=True).strip()
+    rebuilt = {}
+    for key, value in entry.items():
+        if key == 'manifest':
+            rebuilt[key] = manifest
+        elif key == 'files':
+            rebuilt[key] = files
+        elif key == 'ref':
+            rebuilt[key] = ref
+        else:
+            rebuilt[key] = value
+    data['manifests'][package] = rebuilt
+    with open(compiled, 'w', encoding='utf-8') as fh:
+        fh.write(serialise(data))
+    print('ref %s -> %s' % (entry.get('ref'), ref))
+    print('PASS: wrote %s (%d file(s))' % (os.path.basename(compiled), len(files)))
+    return 0
+
+
+if __name__ == '__main__':
+    sys.exit(main(sys.argv[1:]))
