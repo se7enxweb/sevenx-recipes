@@ -3,8 +3,12 @@
 
 # Environment.
 # Possible values: "prod" and "dev" out-of-the-box, other values possible with proper configuration
-# Defaults to "dev" if omitted (uses SetEnvIf so value can be used in rewrite rules)
-SetEnvIf Request_URI ".*" APP_ENV=dev
+# Not set here on purpose: APP_ENV comes from the web server (e.g. SetEnv in the vhost), and when the
+# server does not set it, from .env.local and then .env. Forcing it in this file would override all
+# of those and run a production site in "dev".
+# To pin one environment for every request, uncomment and adjust the line below (SetEnvIf, so the
+# value can also be used in rewrite rules):
+#SetEnvIf Request_URI ".*" APP_ENV=prod
 
 # Optional: Whether to use debugging.
 # Possible values: 0, 1 or ""
