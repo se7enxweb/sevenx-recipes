@@ -91,12 +91,15 @@ InlineViewModes[]=embed-inline
 DesignLocationCache=enabled
 
 [DebugSettings]
-DebugOutput=enabled
+# Off for production. For development, set DebugOutput=enabled here to show the debug
+# report below every page (this override file wins over the siteaccess settings).
+DebugOutput=disabled
 DebugRedirection=disabled
 
 [TemplateSettings]
 DevelopmentMode=disabled
-ShowUsedTemplates=enabled
+# For development, set ShowUsedTemplates=enabled to list the templates used to render each page.
+ShowUsedTemplates=disabled
 Debug=disabled
 
 */ ?>
