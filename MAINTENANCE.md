@@ -44,25 +44,68 @@ the following resolution to decide which directory to serve:
 
 ### Stale / unregistered directories (do not use)
 
-The following directories exist on disk but are **not registered** in `index.json`
-and are therefore never served by Flex.  They are superseded by the 1.x slots above.
+The following directory exists on disk, with its compiled
+`se7enxweb.exponential-platform-dxp.4.6.x-LB-dev.json`, but is **not registered**
+in `index.json` and is therefore never served by Flex. It is superseded by `1.2`.
+Changes that apply to every slot are still made in it, so it does not drift.
 
-- `se7enxweb/exponential-platform-dxp/5.x-LB-dev/`  — superseded by `1.4`
-- `se7enxweb/exponential-platform-dxp/dev-5.x-LB/`  — superseded by `1.4`
-- `se7enxweb/exponential-platform-dxp/dev-master/`   — superseded by `1.3`
+- `se7enxweb/exponential-platform-dxp/4.6.x-LB-dev/` — superseded by `1.2`
+
+`5.x-LB-dev/`, `dev-5.x-LB/` and `dev-master/` were removed together with their
+compiled JSON files.
 
 ---
+
+## What Flex actually downloads
+
+Flex never reads the slot directories. For a selected slot it downloads the
+compiled file named by `recipe_template` in `index.json`, for example
+`se7enxweb.exponential-platform-dxp.1.4.json` from the repository root on
+`master`. That file holds, under `manifests.<package>`:
+
+- `manifest` — the slot's `manifest.json`, parsed;
+- `files` — every regular, non-empty file of the slot (plus `manifest.json`
+  itself), base64-encoded in `contents`, with an `executable` flag. Symbolic
+  links and `.gitkeep` placeholders are left out; links that a project needs are
+  created by the slot's `bin/install-legacy-links`;
+- `ref` — the commit the file was last rebuilt on. Flex records it in a
+  project's `symfony.lock` and reports a recipe update when the served `ref`
+  differs, so it changes on every rebuild that changes content.
+
+**A change to a slot directory reaches nobody until it is compiled into that
+JSON file.** Editing only the slot directory changes nothing for Flex clients.
+
+Flex copies recipe files only when the recipe is installed (or when a project
+runs `composer recipes:update`). Projects that already installed a recipe keep
+their copies of its files and must apply a fix to their own files themselves.
 
 ## Workflow: updating a recipe file
 
 1. Identify which **stack variant** the change belongs to (see table above).
+   A fix that applies to every stack is made in every slot directory.
 2. Edit the file inside the corresponding **slot directory**.
-3. Rebuild the `.json` manifest if files were added/removed:
+3. Compile the slot into its served JSON file, from the repository root. Do this
+   for every change, not only when files were added or removed:
    ```bash
-   # from repo root
-   php bin/build-recipe-manifest se7enxweb/exponential-platform-dxp 1.4
+   bin/build-recipe-manifest se7enxweb/exponential-platform-dxp 1.4
    ```
-4. Commit, tag (`vX.Y.Z`), push, create GitHub release.
+   The tool (Python 3) re-encodes the slot's files and manifest, sets `ref` to
+   the current `HEAD` commit (the commit the rebuild is made on; pass
+   `--ref <sha>` to choose another), and only rewrites the file when its
+   content changed. It refuses to touch a compiled file it cannot re-serialise
+   byte for byte, so the diff of a rebuild shows only real changes: the changed
+   files' `contents` lines and the `ref` line.
+4. Check that every slot matches its compiled file (writes nothing, exits 1 on a
+   difference):
+   ```bash
+   for s in 1.0 1.2 1.3 1.4 4.6.x-dev 4.6.x-LB-dev 5.0; do
+       bin/build-recipe-manifest se7enxweb/exponential-platform-dxp $s --check
+   done
+   ```
+5. Commit the slot change and the rebuilt JSON together, push to `master`.
+   A release is tagged `v1.3.N` (the next number after
+   `git tag -l --sort=version:refname | tail -1`; never re-use or move a tag) and
+   gets a GitHub release. Flex itself reads `master`, not the tags.
 
 ### Example: updating a translation for v5 + Legacy Bridge
 
@@ -82,7 +125,8 @@ and its `composer.json` requires `"se7enxweb/exponential-platform-dxp": "dev-5.x
    ```
 3. Add a matching `branch-alias` entry in the **package repo's** `composer.json`
    on the relevant branch so Flex normalises to the new slot number.
-4. Generate the `.json` manifest and commit everything together.
+4. Generate the compiled JSON (`bin/build-recipe-manifest <package> <slot>`
+   creates it when it does not exist yet) and commit everything together.
 
 ---
 
