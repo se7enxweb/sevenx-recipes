@@ -27,6 +27,8 @@ What it writes into manifests.<package> of the compiled JSON:
              served content changes. It is only rewritten when the content
              changes.
 
+A slot without a compiled file (a new slot) gets one.
+
 --check   writes nothing; exits 1 and lists the differences when the compiled
           JSON does not match the slot directory.
 
@@ -91,16 +93,17 @@ def main(argv):
     if not os.path.isfile(os.path.join(slotdir, 'manifest.json')):
         print('FAIL: %s/manifest.json not found (run from the repository root)' % slotdir)
         return 2
-    if not os.path.isfile(compiled):
-        print('FAIL: %s not found; create it by hand once, then rebuild' % compiled)
-        return 2
-
-    raw = open(compiled, encoding='utf-8').read()
-    data = json.loads(raw)
-    serialise = next((s for s in serialisers() if s(data) == raw), None)
-    if serialise is None:
-        print('FAIL: %s does not re-serialise byte for byte; not touching it' % compiled)
-        return 1
+    if os.path.isfile(compiled):
+        raw = open(compiled, encoding='utf-8').read()
+        data = json.loads(raw)
+        serialise = next((s for s in serialisers() if s(data) == raw), None)
+        if serialise is None:
+            print('FAIL: %s does not re-serialise byte for byte; not touching it' % compiled)
+            return 1
+    else:
+        print('new      %s' % os.path.basename(compiled))
+        data = {'manifests': {package: {'manifest': {}, 'files': {}, 'ref': ''}}}
+        serialise = next(serialisers())
     entry = data['manifests'][package]
     manifest = json.load(open(os.path.join(slotdir, 'manifest.json'), encoding='utf-8'))
     src = source_files(slotdir)
