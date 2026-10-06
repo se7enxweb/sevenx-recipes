@@ -8,6 +8,9 @@ VarDir=var/site
 
 [ExtensionSettings]
 ActiveExtensions[]
+# sevenx_exponential_platform_v5_database_translator MUST be first — it overrides
+# DatabaseSettings.ImplementationAlias before any other extension opens a DB connection.
+ActiveExtensions[]=sevenx_exponential_platform_v5_database_translator
 ActiveExtensions[]=app
 ActiveExtensions[]=ngsite
 ActiveExtensions[]=sevenx_themes_simple
