@@ -6,19 +6,30 @@ const ibexaConfig = getIbexaConfig(Encore);
 const customConfigs = require('./ibexa.webpack.custom.configs.js');
 
 /**
- * Exponential Platform installs se7enxweb/admin-ui in place of ibexa/admin-ui.
- * Bundle configs (ibexa/fieldtype-richtext) alias '@ibexa-admin-ui' to
- * ./vendor/ibexa/admin-ui, which does not exist then; point it at the fork.
+ * Exponential Platform installs se7enxweb/admin-ui and se7enxweb/admin-ui-assets
+ * in place of ibexa/admin-ui and ibexa/admin-ui-assets. Bundle configs
+ * (ibexa/fieldtype-richtext, and admin-ui-assets releases made before the
+ * rename) alias them to ./vendor/ibexa/..., which does not exist then; point
+ * those aliases at the installed forks.
  */
-const adminUiPath = path.resolve(__dirname, 'vendor/se7enxweb/admin-ui');
+const forkAliases = {
+    '@ibexa-admin-ui': 'admin-ui',
+    '@ibexa-admin-ui-assets': 'admin-ui-assets',
+};
 
-if (!fs.existsSync(path.resolve(__dirname, 'vendor/ibexa/admin-ui')) && fs.existsSync(adminUiPath)) {
+Object.entries(forkAliases).forEach(([alias, name]) => {
+    const forkPath = path.resolve(__dirname, 'vendor/se7enxweb', name);
+
+    if (fs.existsSync(path.resolve(__dirname, 'vendor/ibexa', name)) || !fs.existsSync(forkPath)) {
+        return;
+    }
+
     [ibexaConfig, ...customConfigs].forEach((config) => {
         if (config && config.resolve && config.resolve.alias) {
-            config.resolve.alias['@ibexa-admin-ui'] = adminUiPath;
+            config.resolve.alias[alias] = forkPath;
         }
     });
-}
+});
 
 Encore.reset();
 Encore.setOutputPath('public/build/')
