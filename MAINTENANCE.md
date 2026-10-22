@@ -27,9 +27,15 @@ the following resolution to decide which directory to serve:
 | `master`            | `dev-master`             | `1.3.x-dev`             | `1.3`              | **`1.3`**   |
 | `5.x-LB`           | `dev-5.x-LB`             | `1.4.x-dev`             | `1.4`              | **`1.4`**   |
 
-> The `4.6.x-dev` and `5.0` slots registered in `index.json` are present for
-> historical reasons / fallback and are not the primary target of any currently
-> active branch.  Do not delete them — older projects may pin to them.
+> The `4.6.x-dev` slot is what a project requiring `"se7enxweb/exponential-platform-dxp": "4.6.x-dev"`
+> gets, which is how `exponential-platform-v4x-dxp-skeleton` installs: a numeric branch (`4.6`)
+> has no `dev-` version, so its branch alias does not apply and Flex normalises `4.6.x-dev` to
+> `4.6`, which selects this slot. It ships the **4.6** frontend build (the encore files and
+> security configuration of the Ibexa 4.6 recipe, Encore 3, webpack pinned to 5.106.2 because
+> later webpack 5 releases removed what Encore 3 copyFiles needs). The other slots ship the 5.0
+> frontend build (`@ibexa/frontend-config` v5) with Encore 6, which works with current webpack 5.
+>
+> The `5.0` slot is present for historical reasons / fallback. Do not delete either slot.
 
 ### Recipe slot → what it contains
 
@@ -39,7 +45,7 @@ the following resolution to decide which directory to serve:
 | `1.2`       | Ibexa DXP 4.6 + eZ Publish Legacy Bridge           | `se7enxweb/exponential-platform-dxp/1.2/`         |
 | `1.3`       | Ibexa DXP 5.x — pure (no Legacy Bridge)            | `se7enxweb/exponential-platform-dxp/1.3/`         |
 | `1.4`       | Ibexa DXP 5.x + eZ Publish Legacy Bridge ← **you are here** | `se7enxweb/exponential-platform-dxp/1.4/` |
-| `4.6.x-dev` | Legacy / historical                                | `se7enxweb/exponential-platform-dxp/4.6.x-dev/`  |
+| `4.6.x-dev` | Ibexa DXP 4.6 (4.6 frontend build; v4x skeleton)    | `se7enxweb/exponential-platform-dxp/4.6.x-dev/`  |
 | `5.0`       | Legacy / historical                                | `se7enxweb/exponential-platform-dxp/5.0/`         |
 
 ### Stale / unregistered directories (do not use)
