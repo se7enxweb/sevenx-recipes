@@ -45,13 +45,19 @@ class LegacyRequestListener implements EventSubscriberInterface
     public function onKernelRequest(RequestEvent $event): void
     {
         $request = $event->getRequest();
-        $session = $request->getSession();
 
         if (
             $event->getRequestType() !== HttpKernelInterface::MAIN_REQUEST
             || !$this->configResolver->getParameter('legacy_mode')
-            || !($session->isStarted() && $session->has('eZUserLoggedInID'))
+            // A request can arrive without a session (for instance the error page of a
+            // request Platform rejected); getSession() would throw SessionNotFoundException.
+            || !$request->hasSession()
         ) {
+            return;
+        }
+
+        $session = $request->getSession();
+        if (!($session->isStarted() && $session->has('eZUserLoggedInID'))) {
             return;
         }
 
