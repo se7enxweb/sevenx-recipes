@@ -28,7 +28,6 @@ ActiveExtensions[]=ezwt
 ActiveExtensions[]=ezflow
 ActiveExtensions[]=ezie
 ActiveExtensions[]=ezodf
-ActiveExtensions[]=ezprestapiprovider
 ActiveExtensions[]=ezmultiupload
 ActiveExtensions[]=ezautosave
 # ActiveExtensions[]=ezmbpaex
@@ -43,8 +42,8 @@ ActiveExtensions[]=ngsymfonytools
 # Use SolrBundle from legacy: https://packagist.org/packages/netgen/ezplatformsearch
 #ActiveExtensions[]=ezplatformsearch
 
-# Edit eZ Platform richtext in raw xml on legacy: https://packagist.org/packages/netgen/richtext-datatype-bundle
-ActiveExtensions[]=ezrichtext
+# Rich text (ezrichtext) editing in legacy comes from a richtext datatype bundle; a project
+# that installs one gets its legacy extension activated by the bridge, nothing to add here.
 
 [Session]
 SessionNameHandler=custom

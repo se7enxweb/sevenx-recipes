@@ -44,8 +44,9 @@ final class LegacyInjectedSettingsSubscriber implements EventSubscriberInterface
 
     public static function getSubscribedEvents(): array
     {
-        // Priority 64: runs after the built-in LegacyMapper/Configuration (priority 128)
-        // so our values layer on top via left-hand precedence of array union (+).
+        // Priority 64: runs after the built-in LegacyMapper/Configuration and LegacyBundles
+        // (priority 128): scalar values layer on top via left-hand precedence of array union (+),
+        // array values are merged with what is already there.
         return [
             LegacyEvents::PRE_BUILD_LEGACY_KERNEL => ['onPreBuildKernel', 64],
         ];
@@ -72,10 +73,17 @@ final class LegacyInjectedSettingsSubscriber implements EventSubscriberInterface
         }
 
         if (!empty($mergeSettings)) {
-            $event->getParameters()->set(
-                'injected-merge-settings',
-                $mergeSettings + (array) $event->getParameters()->get('injected-merge-settings'),
-            );
+            // Array settings are merged, not replaced: the bridge has already injected the
+            // legacy extensions of the registered bundles into ActiveExtensions (priority 128),
+            // and a union (+) on the same key would drop them.
+            $existing = (array) $event->getParameters()->get('injected-merge-settings');
+            foreach ($mergeSettings as $key => $values) {
+                if (isset($existing[$key]) && is_array($existing[$key]) && is_array($values)) {
+                    $values = array_values(array_unique(array_merge($values, $existing[$key])));
+                }
+                $existing[$key] = $values;
+            }
+            $event->getParameters()->set('injected-merge-settings', $existing);
         }
     }
 }

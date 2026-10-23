@@ -7,7 +7,9 @@ parameters:
         'site.ini/SiteSettings/DefaultAccess': legacy_site
         'site.ini/SiteAccessSettings/CheckValidity': 'false'
         'site.ini/SiteAccessSettings/HostMatch': 'uri'
-        'site.ini/SiteAccessSettings/ForceVirtualHost': 'false'
+        # Platform rejects /index.php/... URLs (RejectExplicitFrontControllerRequestsListener), so
+        # legacy must write links without the front controller, on every server.
+        'site.ini/SiteAccessSettings/ForceVirtualHost': 'true'
         'site.ini/SiteAccessSettings/RemoveSiteAccessIfDefaultAccess': disabled
 
     # ── Global array-merge INI settings ──────────────────────────────────────

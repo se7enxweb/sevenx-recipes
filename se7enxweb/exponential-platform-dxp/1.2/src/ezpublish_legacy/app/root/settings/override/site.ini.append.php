@@ -28,7 +28,6 @@ ActiveExtensions[]=ezwt
 ActiveExtensions[]=ezflow
 ActiveExtensions[]=ezie
 ActiveExtensions[]=ezodf
-ActiveExtensions[]=ezprestapiprovider
 ActiveExtensions[]=ezmultiupload
 ActiveExtensions[]=ezautosave
 # ActiveExtensions[]=ezmbpaex
