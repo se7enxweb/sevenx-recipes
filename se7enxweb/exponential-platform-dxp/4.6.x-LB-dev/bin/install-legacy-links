@@ -18,6 +18,20 @@
  *       -> ../../../src/ezpublish_legacy/app/settings/siteaccess/legacy_admin
  *       (per-siteaccess INI overrides for legacy_admin)
  *
+ *   ezpublish_legacy/settings/siteaccess/site
+ *       -> ../../../src/ezpublish_legacy/app/settings/siteaccess/site, or
+ *          ../../../src/LegacySettings/siteaccess/site where the first does not exist
+ *       (the legacy settings of the Platform front end "site": the legacy fallback
+ *        router runs the legacy kernel in this siteaccess for every path no Platform
+ *        route matches; without them the kernel defaults apply, RequireUserLogin=true
+ *        among them, and every unknown path answers with the legacy login page
+ *        instead of a 404)
+ *
+ * When a link path is already a real directory (ezpublish_legacy/settings/override
+ * is created by the legacy kernel itself, which writes audit.ini.append.php there
+ * the first time it runs), the files of the target directory are linked into it one
+ * by one instead, and the files already there are kept.
+ *
  *   vendor/se7enxweb/exponential/var/autoload
  *       -> ../../../../ezpublish_legacy/var/autoload
  *       (fixes ezpAutoloader __DIR__ when vendor copy is loaded first)
@@ -47,16 +61,18 @@ $links = [
         '../../../src/ezpublish_legacy/app/settings/siteaccess/ngadminui',
     ],
     [
-        'ezpublish_legacy/settings/siteaccess/site',
-        '../../../src/ezpublish_legacy/app/settings/siteaccess/site',
-    ],
-    [
         'ezpublish_legacy/settings/siteaccess/legacy_site',
         '../../../src/ezpublish_legacy/app/settings/siteaccess/legacy_site',
     ],
     [
         'ezpublish_legacy/settings/siteaccess/legacy_admin',
         '../../../src/ezpublish_legacy/app/settings/siteaccess/legacy_admin',
+    ],
+    [
+        'ezpublish_legacy/settings/siteaccess/site',
+        is_dir($root . '/src/ezpublish_legacy/app/settings/siteaccess/site')
+            ? '../../../src/ezpublish_legacy/app/settings/siteaccess/site'
+            : '../../../src/LegacySettings/siteaccess/site',
     ],
     [
         'ezpublish_legacy/var/site/storage',
@@ -110,6 +126,26 @@ foreach ($links as [$linkRel, $target]) {
     if (is_link($link)) {
         // Replace existing symlink unconditionally so target is always correct.
         unlink($link);
+    } elseif (is_dir($link) && is_dir($linkDir . '/' . $target)) {
+        // Real directory where a directory link belongs: link the target's files
+        // into it one by one, keeping what is already there.
+        foreach (scandir($linkDir . '/' . $target) as $name) {
+            if ($name === '.' || $name === '..') {
+                continue;
+            }
+            $fileLink = $link . '/' . $name;
+            if (is_link($fileLink)) {
+                unlink($fileLink);
+            } elseif (file_exists($fileLink)) {
+                echo "SKIP (real path exists, not a symlink): {$linkRel}/{$name}\n";
+                ++$skipped;
+                continue;
+            }
+            symlink('../' . $target . '/' . $name, $fileLink);
+            echo "Linked: {$linkRel}/{$name} -> ../{$target}/{$name}\n";
+            ++$ok;
+        }
+        continue;
     } elseif (file_exists($link)) {
         // Real file or directory — do not remove, skip with a warning.
         echo "SKIP (real path exists, not a symlink): {$linkRel}\n";
