@@ -1,9 +1,11 @@
 parameters:
     locale_fallback: en
 
-    # Identifier used to generate the CSRF token. Commenting this line will result in authentication
-    # issues both in AdminUI and REST calls
-    ibexa.rest.csrf_token_intention: authenticate
+    # Intention of the CSRF token REST requests carry (X-CSRF-Token). se7enxweb/admin-ui writes
+    # its CSRF-Token meta tag with csrf_token('rest'), so this must be "rest": with any other
+    # value every REST call of the Admin UI (the content tree, sub-items) answers 401
+    # "Missing or invalid CSRF token".
+    ibexa.rest.csrf_token_intention: rest
 
     # You can uncomment following parameters to override the setting.
     # Their values correspond to the defaults being used.
