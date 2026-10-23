@@ -33,8 +33,6 @@ ActiveExtensions[]=ezmultiupload
 ActiveExtensions[]=ezautosave
 # ActiveExtensions[]=ezmbpaex
 
-# Optional, see: https://packagist.org/packages/ezsystems/eztags-ls
-ActiveExtensions[]=eztags
 
 ## Some recommended bundles/extensions for use with legacy bridge setups:
 # Extra features to reuse code from Symfony in legacy: https://packagist.org/packages/netgen/ngsymfonytools
