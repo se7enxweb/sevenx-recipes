@@ -61,6 +61,8 @@ services:
             - '../src/DependencyInjection/'
             - '../src/Entity/'
             - '../src/Kernel.php'
+            # the legacy application (settings, designs, config.php) is not PHP classes
+            - '../src/ezpublish_legacy/'
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
