@@ -146,6 +146,12 @@
     ],
     "Ibexa\\Bundle\\TwigComponents\\IbexaTwigComponentsBundle": [
       "all"
+    ],
+    "EzSystems\\EzPlatformXmlTextFieldTypeBundle\\EzSystemsEzPlatformXmlTextFieldTypeBundle": [
+      "all"
+    ],
+    "eZ\\Bundle\\EzPublishLegacyBundle\\EzPublishLegacyBundle": [
+      "all"
     ]
   },
   "copy-from-recipe": {
