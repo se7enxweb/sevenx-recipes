@@ -1,0 +1,27 @@
+{
+    "manifests": {
+        "se7enxweb\/content-browser": {
+            "manifest": {
+                "bundles": {
+                    "Netgen\\Bundle\\ContentBrowserBundle\\NetgenContentBrowserBundle": [
+                        "all"
+                    ]
+                },
+                "copy-from-recipe": {
+                    "config\/": "%CONFIG_DIR%\/"
+                }
+            },
+            "files": {
+                "config\/routes\/netgen_content_browser.yaml": {
+                    "contents": "bmV0Z2VuX2NvbnRlbnRfYnJvd3NlcjoKICAgIHJlc291cmNlOiAiQE5ldGdlbkNvbnRlbnRCcm93c2VyQnVuZGxlL1Jlc291cmNlcy9jb25maWcvcm91dGluZy55YW1sIgogICAgcHJlZml4OiAiJW5ldGdlbl9jb250ZW50X2Jyb3dzZXIucm91dGVfcHJlZml4JSIK",
+                    "executable": false
+                },
+                "manifest.json": {
+                    "contents": "ewogICAgImJ1bmRsZXMiOiB7CiAgICAgICAgIk5ldGdlblxcQnVuZGxlXFxDb250ZW50QnJvd3NlckJ1bmRsZVxcTmV0Z2VuQ29udGVudEJyb3dzZXJCdW5kbGUiOiBbImFsbCJdCiAgICB9LAogICAgImNvcHktZnJvbS1yZWNpcGUiOiB7CiAgICAgICAgImNvbmZpZy8iOiAiJUNPTkZJR19ESVIlLyIKICAgIH0KfQo=",
+                    "executable": false
+                }
+            },
+            "ref": "15d71528bedc9a6feedce708b09e3c19a17fe3ba"
+        }
+    }
+}
