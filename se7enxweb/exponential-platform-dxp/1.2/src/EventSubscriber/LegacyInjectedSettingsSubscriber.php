@@ -32,14 +32,33 @@ use Symfony\Component\HttpFoundation\RequestStack;
  */
 final class LegacyInjectedSettingsSubscriber implements EventSubscriberInterface
 {
+    // Plain properties, no constructor promotion: the 4.6 projects run on PHP 7.4 and later
+    private array $injectedSettings;
+
+    private array $injectedMergeSettings;
+
+    private array $siteaccessInjectedSettings;
+
+    private array $siteaccessInjectedMergeSettings;
+
+    private SiteAccess $siteAccess;
+
+    private RequestStack $requestStack;
+
     public function __construct(
-        private readonly array $injectedSettings,
-        private readonly array $injectedMergeSettings,
-        private readonly array $siteaccessInjectedSettings,
-        private readonly array $siteaccessInjectedMergeSettings,
-        private readonly SiteAccess $siteAccess,
-        private readonly RequestStack $requestStack,
+        array $injectedSettings,
+        array $injectedMergeSettings,
+        array $siteaccessInjectedSettings,
+        array $siteaccessInjectedMergeSettings,
+        SiteAccess $siteAccess,
+        RequestStack $requestStack
     ) {
+        $this->injectedSettings = $injectedSettings;
+        $this->injectedMergeSettings = $injectedMergeSettings;
+        $this->siteaccessInjectedSettings = $siteaccessInjectedSettings;
+        $this->siteaccessInjectedMergeSettings = $siteaccessInjectedMergeSettings;
+        $this->siteAccess = $siteAccess;
+        $this->requestStack = $requestStack;
     }
 
     public static function getSubscribedEvents(): array
@@ -58,7 +77,7 @@ final class LegacyInjectedSettingsSubscriber implements EventSubscriberInterface
         // different object than the one SiteAccessListener updates, so prefer the
         // request attribute (set by SiteAccessListener before this event fires).
         $request = $this->requestStack->getCurrentRequest();
-        $requestSA = $request?->attributes->get('siteaccess');
+        $requestSA = $request !== null ? $request->attributes->get('siteaccess') : null;
         $saName = ($requestSA instanceof SiteAccess ? $requestSA->name : null)
             ?? $this->siteAccess->name;
 
