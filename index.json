@@ -19,6 +19,9 @@
             "4.6.x-dev",
             "5.0"
         ],
+        "se7enxweb/layouts-core": [
+            "1.4"
+        ],
         "se7enxweb/site-bundle": [
             "3.1"
         ],

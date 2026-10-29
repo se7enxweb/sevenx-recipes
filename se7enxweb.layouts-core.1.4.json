@@ -1,0 +1,34 @@
+{
+    "manifests": {
+        "se7enxweb\/layouts-core": {
+            "manifest": {
+                "bundles": {
+                    "Netgen\\Bundle\\LayoutsBundle\\NetgenLayoutsBundle": [
+                        "all"
+                    ],
+                    "Netgen\\Bundle\\LayoutsAdminBundle\\NetgenLayoutsAdminBundle": [
+                        "all"
+                    ],
+                    "Netgen\\Bundle\\LayoutsDebugBundle\\NetgenLayoutsDebugBundle": [
+                        "dev",
+                        "test"
+                    ]
+                },
+                "copy-from-recipe": {
+                    "config\/": "%CONFIG_DIR%\/"
+                }
+            },
+            "files": {
+                "config\/routes\/netgen_layouts.yaml": {
+                    "contents": "bmV0Z2VuX2xheW91dHM6CiAgICByZXNvdXJjZTogIkBOZXRnZW5MYXlvdXRzQnVuZGxlL1Jlc291cmNlcy9jb25maWcvcm91dGluZy55YW1sIgogICAgcHJlZml4OiAiJW5ldGdlbl9sYXlvdXRzLnJvdXRlX3ByZWZpeCUiCg==",
+                    "executable": false
+                },
+                "manifest.json": {
+                    "contents": "ewogICAgImJ1bmRsZXMiOiB7CiAgICAgICAgIk5ldGdlblxcQnVuZGxlXFxMYXlvdXRzQnVuZGxlXFxOZXRnZW5MYXlvdXRzQnVuZGxlIjogWyJhbGwiXSwKICAgICAgICAiTmV0Z2VuXFxCdW5kbGVcXExheW91dHNBZG1pbkJ1bmRsZVxcTmV0Z2VuTGF5b3V0c0FkbWluQnVuZGxlIjogWyJhbGwiXSwKICAgICAgICAiTmV0Z2VuXFxCdW5kbGVcXExheW91dHNEZWJ1Z0J1bmRsZVxcTmV0Z2VuTGF5b3V0c0RlYnVnQnVuZGxlIjogWyJkZXYiLCAidGVzdCJdCiAgICB9LAogICAgImNvcHktZnJvbS1yZWNpcGUiOiB7CiAgICAgICAgImNvbmZpZy8iOiAiJUNPTkZJR19ESVIlLyIKICAgIH0KfQo=",
+                    "executable": false
+                }
+            },
+            "ref": "a0874517166d32a70ce2d27977dab1dd388f079c"
+        }
+    }
+}
